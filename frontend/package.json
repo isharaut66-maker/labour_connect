@@ -1,0 +1,9 @@
+{
+  "name": "labour-connect-frontend",
+  "version": "1.0.0",
+  "description": "Frontend static server for Labour Connect",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

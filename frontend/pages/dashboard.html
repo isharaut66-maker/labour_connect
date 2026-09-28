@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Labour Connect</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#F97316',
+                        secondary: '#2563EB',
+                        dark: '#1F2937',
+                        light: '#F9FAFB',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sidebar { transition: transform 0.3s ease; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+        }
+        .side-link {
+            transition: all 0.2s ease;
+        }
+        .side-link.active, .side-link:hover {
+            background: #EFF6FF;
+            color: #2563EB;
+            border-right: 3px solid #2563EB;
+        }
+        .stat-card {
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-4px); }
+    </style>
+</head>
+<body class="bg-light text-gray-700 font-sans antialiased">
+
+    <!-- Mobile Header -->
+    <div class="md:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-white sticky top-0 z-40">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">
+                <i class="fa-solid fa-toolbox text-sm"></i>
+            </div>
+            <span class="font-bold text-gray-900">Labour<span class="text-primary">Connect</span></span>
+        </div>
+        <button onclick="document.getElementById('sidebar').classList.toggle('open')" class="text-gray-600 text-xl">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar fixed md:relative w-64 h-full bg-white border-r border-gray-200 z-50 flex flex-col shadow-xl md:shadow-none">
+            <div class="p-6 hidden md:flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-toolbox"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">Labour<span class="text-primary">Connect</span></span>
+            </div>
+
+            <div class="px-6 py-4 mt-2">
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                    <img src="https://i.pravatar.cc/150?img=11" alt="Profile" id="profileImage" class="w-12 h-12 rounded-full border border-gray-200 object-cover">
+                    <div class="overflow-hidden">
+                        <strong id="sidebarName" class="block text-sm text-gray-900 truncate">Loading...</strong>
+                        <span id="sidebarRole" class="text-xs text-primary font-semibold uppercase tracking-wide">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 mt-4 overflow-y-auto space-y-1">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-3">Menu</div>
+                
+                <button class="side-link active w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm mb-1" onclick="window.location.href='dashboard.html'">
+                    <i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard
+                </button>
+                
+                <div id="clientMenu" class="hidden space-y-1">
+                    <button class="side-link w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm" onclick="window.location.href='labourers.html'">
+                        <i class="fa-solid fa-magnifying-glass w-5 text-center"></i> Find Professionals
+                    </button>
+                    <button class="side-link w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm" onclick="window.location.href='projects.html'">
+                        <i class="fa-solid fa-clipboard-list w-5 text-center"></i> My Projects
+                    </button>
+                </div>
+                
+                <div id="labourerMenu" class="hidden space-y-1">
+                    <button class="side-link w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm" onclick="window.location.href='projects.html'">
+                        <i class="fa-solid fa-briefcase w-5 text-center"></i> Find Jobs
+                    </button>
+                </div>
+
+                <div class="mt-6">
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-3">Settings</div>
+                    <button class="side-link w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm" onclick="window.location.href='profile.html'">
+                        <i class="fa-solid fa-user w-5 text-center"></i> My Profile
+                    </button>
+                </div>
+            </nav>
+
+            <div class="p-4 mt-auto">
+                <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-50 text-red-600 font-bold hover:bg-red-100 transition-colors border border-red-100">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 h-full overflow-y-auto bg-light p-4 md:p-8">
+
+            <div class="max-w-6xl mx-auto">
+                
+                <header class="mb-10">
+                    <h1 id="welcomeText" class="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">Welcome</h1>
+                    <p class="text-gray-500 text-sm">Here's an overview of your activity today.</p>
+                </header>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="dashboardStats">
+                    <!-- Loading Skeleton -->
+                    <div class="stat-card p-6 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="h-4 w-20 bg-gray-200 rounded animate-pulse mb-3"></div>
+                            <div class="h-8 w-12 bg-gray-200 rounded animate-pulse"></div>
+                        </div>
+                        <div class="w-12 h-12 bg-gray-200 rounded-xl animate-pulse"></div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- JS intact -->
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const user = await requireAuth();
+            if (!user) return;
+
+            document.getElementById('sidebarName').innerText = user.name;
+            document.getElementById('sidebarRole').innerText = user.role === 'LABOURER' ? 'PRO' : user.role;
+            document.getElementById('welcomeText').innerText = `Welcome back, ${user.name.split(' ')[0]}`;
+
+            if (user.role === 'CLIENT' || user.role === 'CONTRACTOR' || user.role === 'ORGANIZATION') {
+                document.getElementById('clientMenu').classList.remove('hidden');
+            } else if (user.role === 'LABOURER') {
+                document.getElementById('labourerMenu').classList.remove('hidden');
+            }
+
+            loadDashboardStats();
+        });
+
+        async function loadDashboardStats() {
+            try {
+                const stats = await apiRequest('/dashboard');
+                const container = document.getElementById('dashboardStats');
+                container.innerHTML = '';
+
+                if (stats.totalProjects !== undefined) {
+                    container.innerHTML += createStatCard('Total Projects', stats.totalProjects, 'fa-clipboard-list', 'text-blue-600 bg-blue-50');
+                }
+                if (stats.totalApplications !== undefined) {
+                    container.innerHTML += createStatCard('Applications', stats.totalApplications, 'fa-file-signature', 'text-purple-600 bg-purple-50');
+                }
+                if (stats.activeBookings !== undefined) {
+                    container.innerHTML += createStatCard('Active Jobs', stats.activeBookings, 'fa-clock', 'text-orange-600 bg-orange-50');
+                }
+                if (stats.completedBookings !== undefined) {
+                    container.innerHTML += createStatCard('Completed', stats.completedBookings, 'fa-check-circle', 'text-emerald-600 bg-emerald-50');
+                }
+            } catch (error) {
+                console.error('Failed to load stats', error);
+            }
+        }
+
+        function createStatCard(label, value, icon, colorClasses) {
+            return `
+            <div class="stat-card p-6 rounded-2xl flex items-center justify-between group">
+                <div>
+                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">${label}</p>
+                    <h3 class="text-3xl font-extrabold text-gray-900">${value}</h3>
+                </div>
+                <div class="w-14 h-14 rounded-xl ${colorClasses} flex items-center justify-center text-2xl transition-transform group-hover:scale-110">
+                    <i class="fa-solid ${icon}"></i>
+                </div>
+            </div>`;
+        }
+    </script>
+</body>
+</html>

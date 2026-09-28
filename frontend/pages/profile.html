@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Labour Connect</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#F97316',
+                        secondary: '#2563EB',
+                        dark: '#1F2937',
+                        light: '#F9FAFB',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sidebar { transition: transform 0.3s ease; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+        }
+        .side-link { transition: all 0.2s ease; }
+        .side-link.active, .side-link:hover {
+            background: #EFF6FF;
+            color: #2563EB;
+            border-right: 3px solid #2563EB;
+        }
+        .profile-card {
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+        .input-clean {
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            color: #1F2937;
+            transition: border-color 0.2s;
+        }
+        .input-clean:focus {
+            border-color: #2563EB;
+            background: #FFFFFF;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-light text-gray-700 font-sans antialiased">
+
+    <!-- Mobile Header -->
+    <div class="md:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-white sticky top-0 z-40">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">
+                <i class="fa-solid fa-toolbox text-sm"></i>
+            </div>
+            <span class="font-bold text-gray-900">Labour<span class="text-primary">Connect</span></span>
+        </div>
+        <button onclick="document.getElementById('sidebar').classList.toggle('open')" class="text-gray-600 text-xl">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar fixed md:relative w-64 h-full bg-white border-r border-gray-200 z-50 flex flex-col shadow-xl md:shadow-none">
+            <div class="p-6 hidden md:flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-toolbox"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">Labour<span class="text-primary">Connect</span></span>
+            </div>
+
+            <nav class="flex-1 px-4 mt-8 overflow-y-auto space-y-1">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-3">Menu</div>
+                
+                <button class="side-link w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm mb-1" onclick="window.location.href='dashboard.html'">
+                    <i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard
+                </button>
+                
+                <div id="clientMenu" class="hidden space-y-1">
+                    <button class="side-link w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm" onclick="window.location.href='labourers.html'">
+                        <i class="fa-solid fa-magnifying-glass w-5 text-center"></i> Find Professionals
+                    </button>
+                    <button class="side-link w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm" onclick="window.location.href='projects.html'">
+                        <i class="fa-solid fa-clipboard-list w-5 text-center"></i> My Projects
+                    </button>
+                </div>
+                
+                <div id="labourerMenu" class="hidden space-y-1">
+                    <button class="side-link w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm" onclick="window.location.href='projects.html'">
+                        <i class="fa-solid fa-briefcase w-5 text-center"></i> Find Jobs
+                    </button>
+                </div>
+
+                <div class="mt-6">
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 px-3">Settings</div>
+                    <button class="side-link active w-full flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 font-semibold text-sm" onclick="window.location.href='profile.html'">
+                        <i class="fa-solid fa-user w-5 text-center"></i> My Profile
+                    </button>
+                </div>
+            </nav>
+
+            <div class="p-4 mt-auto">
+                <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-50 text-red-600 font-bold hover:bg-red-100 transition-colors border border-red-100">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 h-full overflow-y-auto bg-light p-4 md:p-8">
+            <div class="max-w-3xl mx-auto">
+                
+                <header class="mb-8">
+                    <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">My Profile</h1>
+                    <p class="text-gray-500 text-sm">Manage your personal and professional information.</p>
+                </header>
+
+                <div class="profile-card rounded-2xl overflow-hidden">
+                    
+                    <!-- Cover & Avatar -->
+                    <div class="h-32 bg-blue-50 relative border-b border-gray-200">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#2563EB_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                        
+                        <div class="absolute -bottom-10 left-8">
+                            <img src="https://i.pravatar.cc/150?img=11" alt="Profile" class="w-24 h-24 rounded-full border-4 border-white object-cover shadow-sm bg-white">
+                        </div>
+                    </div>
+                    
+                    <div class="pt-14 p-8">
+                        <!-- Basic Info (Read Only for demo) -->
+                        <div class="mb-10">
+                            <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2"><i class="fa-regular fa-id-card text-primary"></i> Account Details</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                                    <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Full Name</span>
+                                    <span class="text-gray-900 font-semibold" id="pName">Loading...</span>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                                    <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email</span>
+                                    <span class="text-gray-900 font-semibold" id="pEmail">Loading...</span>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                                    <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Mobile</span>
+                                    <span class="text-gray-900 font-semibold" id="pMobile">Loading...</span>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                                    <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Account Type</span>
+                                    <span class="inline-block px-2.5 py-1 rounded-md bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold" id="pRole">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Professional Profile Form -->
+                        <div id="labourerSection" class="hidden border-t border-gray-200 pt-8">
+                            <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2"><i class="fa-solid fa-wrench text-primary"></i> Professional Profile</h3>
+                            
+                            <form onsubmit="saveLabourerProfile(event)" class="space-y-5">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Primary Service</label>
+                                        <div class="relative">
+                                            <i class="fa-solid fa-hammer absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                            <input type="text" id="lSkill" placeholder="e.g. Electrician, Painter" class="input-clean w-full rounded-xl pl-11 pr-4 py-3 text-sm" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Location</label>
+                                        <div class="relative">
+                                            <i class="fa-solid fa-location-dot absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                            <input type="text" id="lLocation" placeholder="e.g. Mumbai" class="input-clean w-full rounded-xl pl-11 pr-4 py-3 text-sm" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Years of Experience</label>
+                                        <div class="relative">
+                                            <i class="fa-solid fa-calendar-days absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                            <input type="number" id="lExp" placeholder="0" class="input-clean w-full rounded-xl pl-11 pr-4 py-3 text-sm" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Daily Rate (₹)</label>
+                                        <div class="relative">
+                                            <i class="fa-solid fa-indian-rupee-sign absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                            <input type="number" id="lRate" placeholder="e.g. 500" class="input-clean w-full rounded-xl pl-11 pr-4 py-3 text-sm" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="pt-4 flex justify-end">
+                                    <button type="submit" class="bg-primary hover:bg-primary-hover text-white px-8 py-3 rounded-xl font-bold transition-all shadow-md">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        let currentUser = null;
+        document.addEventListener("DOMContentLoaded", async () => {
+            currentUser = await requireAuth();
+            if (!currentUser) return;
+            
+            document.getElementById('pName').innerText = currentUser.name;
+            document.getElementById('pEmail').innerText = currentUser.email;
+            document.getElementById('pMobile').innerText = currentUser.mobile;
+            document.getElementById('pRole').innerText = currentUser.role === 'LABOURER' ? 'PRO' : currentUser.role;
+
+            if (currentUser.role === 'CLIENT' || currentUser.role === 'CONTRACTOR' || currentUser.role === 'ORGANIZATION') {
+                document.getElementById('clientMenu').classList.remove('hidden');
+            } else if (currentUser.role === 'LABOURER') {
+                document.getElementById('labourerSection').classList.remove('hidden');
+                document.getElementById('labourerMenu').classList.remove('hidden');
+            }
+        });
+
+        async function saveLabourerProfile(e) {
+            e.preventDefault();
+            const data = {
+                skill: document.getElementById('lSkill').value,
+                location: document.getElementById('lLocation').value,
+                experience: parseInt(document.getElementById('lExp').value),
+                dailyRate: parseFloat(document.getElementById('lRate').value)
+            };
+
+            try {
+                await apiRequest('/labourers/profile', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+                alert('Profile updated successfully!');
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+    </script>
+</body>
+</html>
