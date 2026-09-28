@@ -1,5 +1,9 @@
 // Base URL for the Spring Boot backend
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = window.API_BASE_URL 
+    || localStorage.getItem('API_BASE_URL')
+    || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? 'http://localhost:8080/api' 
+        : '/api');
 
 /**
  * Global wrapper for API requests.
